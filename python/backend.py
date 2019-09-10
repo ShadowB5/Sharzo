@@ -113,8 +113,7 @@ def create_media(connection, media_item):
                           File Location, OwnerID,LoanerID,LoanReturnTime,IsBeingLoaded)
     :return: the row id of the inserted value
     """
-    sql = 'INSERT INTO Media(FileType, MediaType, FileName, FileLocation, OwnerID, LoanerID,'+
-            'LoanReturnTime,IsBeingLoaned) VALUES(?,?,?,?,?,?,?,?)'
+    sql = 'INSERT INTO Media(FileType, MediaType, FileName, FileLocation, OwnerID, LoanerID, LoanReturnTime,IsBeingLoaned) VALUES(?,?,?,?,?,?,?,?)'
     cursor = connection.cursor()
     cursor.execute(sql,media_item)
     connection.commit()
@@ -201,23 +200,212 @@ def create_request_media(connection, media_request):
     return cursor.lastrowid
 
 
-def sql_fetch(con):
-    cursor = con.cursor()
+def delete_user(connection, id):
+    """
+    Delete a user with a given id
+
+    :param connection: The active connection to the database.
+    :param id: The user's id to be deleted.
+    """
+    sql = 'DELETE from Users WHERE uID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, id)
+    connection.commit()
+
+
+def delete_request_friend(connection, id):
+    """
+    Delete a friend request with a given id
+
+    :param connection: The active connection to the database.
+    :param id: The friend request's id to be deleted.
+    """
+    sql = 'DELETE from RequestFriend WHERE rfID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, id)
+    connection.commit()
+
+
+def delete_friend_junction(connection, id):
+    """
+    Delete a friend junction with a given id
+
+    :param connection: The active connection to the database.
+    :param id: The friend junction's id to be deleted.
+    """
+    sql = 'DELETE from FriendsJunction WHERE fjID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, id)
+    connection.commit()
+
+
+def delete_collection(connection, id):
+    """
+    Delete a collection with a given id
+
+    :param connection: The active connection to the database.
+    :param id: The collection's id to be deleted.
+    """
+    sql = 'DELETE from Collection WHERE cID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, id)
+    connection.commit()
+
+
+def delete_request_media(connection, id):
+    """
+    Delete a request media with a given id
+
+    :param connection: The active connection to the database.
+    :param id: The media request's id to be deleted.
+    """
+    sql = 'DELETE from RequestMedia WHERE rmID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, id)
+    connection.commit()
+
+
+def delete_media(connection, id):
+    """
+    Delete a media with a given id
+
+    :param connection: The active connection to the database.
+    :param id: The media's id to be deleted.
+    """
+    sql = 'DELETE from Media WHERE mID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, id)
+    connection.commit()
+
+
+def delete_media_connection_junction(connection, id):
+    """
+    Delete a media connection junction with a given id
+
+    :param connection: The active connection to the database.
+    :param id: The media connection junction's id to be deleted.
+    """
+    sql = 'DELETE from MediaCollectionJunction WHERE mcjID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, id)
+    connection.commit()
+
+
+def clear_users(connection):
+    """
+    Delete all rows in the user table
+    "param connection" Active connection to a sqlite db
+    """
+
+    sql = 'DELETE FROM Users'
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    connection.commit()
+
+
+def clear_media(connection):
+    """
+    Delete all rows in the media table
+    "param connection" Active connection to a sqlite db
+    """
+
+    sql = 'DELETE FROM Media'
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    connection.commit()
+
+
+def clear_media_collection_junction(connection):
+    """
+    Delete all rows in the media collection junction table
+    "param connection" Active connection to a sqlite db
+    """
+
+    sql = 'DELETE FROM MediaCollectionJunction'
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    connection.commit()
+
+
+def clear_collection(connection):
+    """
+    Delete all rows in the collection table
+    "param connection" Active connection to a sqlite db
+    """
+
+    sql = 'DELETE FROM Collection'
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    connection.commit()
+
+
+def clear_request_media(connection):
+    """
+    Delete all rows in the RequestMedia table
+    "param connection" Active connection to a sqlite db
+    """
+
+    sql = 'DELETE FROM RequestMedia'
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    connection.commit()
+
+
+def clear_request_friend(connection):
+    """
+    Delete all rows in the RequestFriend table
+    "param connection" Active connection to a sqlite db
+    """
+
+    sql = 'DELETE FROM RequestFriend'
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    connection.commit()
+
+
+def clear_friend_junction(connection):
+    """
+    Delete all rows in the FriendJunction table
+    "param connection" Active connection to a sqlite db
+    """
+
+    sql = 'DELETE FROM FriendsJunction'
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    connection.commit()
+
+
+def sql_fetch(connection):
+    """
+    Debugging method to display all tables in the database.
+
+    :param connection: The opened connection to the database to show its tables.
+    """
+    cursor = connection.cursor()
     cursor.execute('SELECT name from sqlite_master where type= "table"')
     print(cursor.fetchall())
 
 
-def sql_fetchall(conn):
-    cursor = conn.cursor()
+def sql_fetch_all_users(connection):
+    """
+    Debugging method to display the user table's contents
+
+    :param connection: Opened connection to the database
+    """
+    cursor = connection.cursor()
     cursor.execute('SELECT * FROM Users')
     rows = cursor.fetchall()
     for row in rows:
         print(row)
 
 
-def close_connection(conn):
-    if conn:
-        conn.close()
+def close_connection(connection):
+    """
+    Make sure that the database connection is closed at the end.
+    """
+
+    if connection:
+        connection.close()
         print("Database connection closed.")
 
 
@@ -227,13 +415,21 @@ def close_connection(conn):
 if __name__ == '__main__':
     database_connection = create_connection(database_file_path)
     sql_fetch(database_connection)
-    sql_fetchall(database_connection)
+    sql_fetch_all_users(database_connection)
     if database_connection:
         print(database_connection)
         user = ("test", "test@c.com", "12345")
+        user = ("test", "test@a.com", "12345")
         media = ("jpg", "img", "Blah", "Over There", 2, 3, None, False)
         result = create_user(database_connection, user)
         result = create_media(database_connection, media)
+        sql_fetch_all_users(database_connection)
+
+        clear_users(database_connection)
+        clear_media(database_connection)
+
+        sql_fetch_all_users(database_connection)
+
         
 
     httpd = HTTPServer((hostName, hostPort), SimpleHTTPRequestHandler)
