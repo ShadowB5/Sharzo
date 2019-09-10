@@ -113,8 +113,7 @@ def create_media(connection, media_item):
                           File Location, OwnerID,LoanerID,LoanReturnTime,IsBeingLoaded)
     :return: the row id of the inserted value
     """
-    sql = 'INSERT INTO Media(FileType, MediaType, FileName, FileLocation, OwnerID, LoanerID,'+
-            'LoanReturnTime,IsBeingLoaned) VALUES(?,?,?,?,?,?,?,?)'
+    sql = 'INSERT INTO Media(FileType, MediaType, FileName, FileLocation, OwnerID, LoanerID, LoanReturnTime,IsBeingLoaned) VALUES(?,?,?,?,?,?,?,?)'
     cursor = connection.cursor()
     cursor.execute(sql,media_item)
     connection.commit()
@@ -162,7 +161,7 @@ def create_friend_junction(connection, friend_junction):
                     Should be in a list in form (Person1ID, Person2ID)
     :return: the row id of the inserted value
     """
-    sql = 'INSERT INTO FriendJunction(Person1ID,Person2ID) VALUES(?,?)'
+    sql = 'INSERT INTO FriendsJunction(Person1ID,Person2ID) VALUES(?,?)'
     cursor = connection.cursor()
     cursor.execute(sql,friend_junction)
     connection.commit()
@@ -201,23 +200,420 @@ def create_request_media(connection, media_request):
     return cursor.lastrowid
 
 
-def sql_fetch(con):
-    cursor = con.cursor()
+def delete_user(connection, id):
+    """
+    Delete a user with a given id
+
+    :param connection: The active connection to the database.
+    :param id: The user's id to be deleted.
+    """
+    sql = 'DELETE from Users WHERE uID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, id)
+    connection.commit()
+
+
+def delete_request_friend(connection, id):
+    """
+    Delete a friend request with a given id
+
+    :param connection: The active connection to the database.
+    :param id: The friend request's id to be deleted.
+    """
+    sql = 'DELETE from RequestFriend WHERE rfID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, id)
+    connection.commit()
+
+
+def delete_friend_junction(connection, id):
+    """
+    Delete a friend junction with a given id
+
+    :param connection: The active connection to the database.
+    :param id: The friend junction's id to be deleted.
+    """
+    sql = 'DELETE from FriendsJunction WHERE fjID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, id)
+    connection.commit()
+
+
+def delete_collection(connection, id):
+    """
+    Delete a collection with a given id
+
+    :param connection: The active connection to the database.
+    :param id: The collection's id to be deleted.
+    """
+    sql = 'DELETE from Collection WHERE cID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, id)
+    connection.commit()
+
+
+def delete_request_media(connection, id):
+    """
+    Delete a request media with a given id
+
+    :param connection: The active connection to the database.
+    :param id: The media request's id to be deleted.
+    """
+    sql = 'DELETE from RequestMedia WHERE rmID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, id)
+    connection.commit()
+
+
+def delete_media(connection, id):
+    """
+    Delete a media with a given id
+
+    :param connection: The active connection to the database.
+    :param id: The media's id to be deleted.
+    """
+    sql = 'DELETE from Media WHERE mID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, id)
+    connection.commit()
+
+
+def delete_media_connection_junction(connection, id):
+    """
+    Delete a media connection junction with a given id
+
+    :param connection: The active connection to the database.
+    :param id: The media connection junction's id to be deleted.
+    """
+    sql = 'DELETE from MediaCollectionJunction WHERE mcjID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, id)
+    connection.commit()
+
+
+def clear_users(connection):
+    """
+    Delete all rows in the user table
+    "param connection" Active connection to a sqlite db
+    """
+
+    sql = 'DELETE FROM Users'
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    connection.commit()
+
+
+def clear_media(connection):
+    """
+    Delete all rows in the media table
+    "param connection" Active connection to a sqlite db
+    """
+
+    sql = 'DELETE FROM Media'
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    connection.commit()
+
+
+def clear_media_collection_junction(connection):
+    """
+    Delete all rows in the media collection junction table
+    "param connection" Active connection to a sqlite db
+    """
+
+    sql = 'DELETE FROM MediaCollectionJunction'
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    connection.commit()
+
+
+def clear_collection(connection):
+    """
+    Delete all rows in the collection table
+    "param connection" Active connection to a sqlite db
+    """
+
+    sql = 'DELETE FROM Collection'
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    connection.commit()
+
+
+def clear_request_media(connection):
+    """
+    Delete all rows in the RequestMedia table
+    "param connection" Active connection to a sqlite db
+    """
+
+    sql = 'DELETE FROM RequestMedia'
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    connection.commit()
+
+
+def clear_request_friend(connection):
+    """
+    Delete all rows in the RequestFriend table
+    "param connection" Active connection to a sqlite db
+    """
+
+    sql = 'DELETE FROM RequestFriend'
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    connection.commit()
+
+
+def clear_friend_junction(connection):
+    """
+    Delete all rows in the FriendJunction table
+    "param connection" Active connection to a sqlite db
+    """
+
+    sql = 'DELETE FROM FriendsJunction'
+    cursor = connection.cursor()
+    cursor.execute(sql)
+    connection.commit()
+
+
+def update_user(connection, user):
+    """
+    update a username, email address, or password for a user
+    :param connection: active connection to a sqlite db
+    :param user: a list of user information to store in the database
+    """
+    sql = ''' UPDATE Users 
+              SET Username = ? , 
+                  Email = ? , 
+                  Password = ? 
+              WHERE uID = ?'''
+    cursor = connection.cursor()
+    cursor.execute(sql,user)
+    connection.commit()
+
+
+def update_media(connection, media):
+    """
+    update a FileType, Media Type, File Name, File Location, Owner ID, Loaner ID, Loan Return Time, or Is Being Loaned for a media item
+    :param connection: active connection to a sqlite db
+    :param media: a list of media information to store in the database
+    """
+    sql = ''' UPDATE Media 
+              SET FileType = ? , 
+                  MediaType = ? , 
+                  FileName = ? ,
+                  FileLocation = ?,
+                  OwnerID = ? ,
+                  LoanerID = ? ,
+                  LoanReturnTime = ? ,
+                  IsBeingLoaned = ?
+              WHERE mID = ?'''
+    cursor = connection.cursor()
+    cursor.execute(sql,media)
+    connection.commit()
+
+
+def update_collection(connection, collection):
+    """
+    update a OwnerID, Date Created, or Collection Name for a collection
+    :param connection: active connection to a sqlite db
+    :param collection: a list of collection information to store in the database
+    """
+    sql = ''' UPDATE Collection 
+              SET OwnerID = ? , 
+                  DateCreated = ? , 
+                  CollectionName = ? 
+              WHERE cID = ?'''
+    cursor = connection.cursor()
+    cursor.execute(sql,collection)
+    connection.commit()
+
+
+def update_request_media(connection, media_request):
+    """
+    update a Requested Loan Time, MediaID, FromID, or ToID for a media request
+    :param connection: active connection to a sqlite db
+    :param media_request: a list of media request's information to store in the database
+    """
+    sql = ''' UPDATE RequestMedia 
+              SET RequestedLoanTime = ? , 
+                  MediaID = ? , 
+                  FromID = ? ,
+                  ToID = ?
+              WHERE rmID = ?'''
+    cursor = connection.cursor()
+    cursor.execute(sql,media_request)
+    connection.commit()
+
+
+def update_request_friend(connection, friend_request):
+    """
+    update a FromID and a ToID for a friend request
+    :param connection: active connection to a sqlite db
+    :param friend_request: a list of friend_request information to store in the database
+    """
+    sql = ''' UPDATE RequestFriend 
+              SET FromID = ? , 
+                  ToID = ? 
+              WHERE rfID = ?'''
+    cursor = connection.cursor()
+    cursor.execute(sql,friend_request)
+    connection.commit()
+
+
+def update_friend_junction(connection, friends_junction):
+    """
+    update a Person1ID and a Person2ID for a friend request
+    :param connection: active connection to a sqlite db
+    :param friends_junction: a list of friends junction information to store in the database
+    """
+    sql = ''' UPDATE FriendsJunction 
+              SET Person1ID = ? , 
+                  Person2ID = ? 
+              WHERE fjID = ?'''
+    cursor = connection.cursor()
+    cursor.execute(sql,friends_junction)
+    connection.commit()
+
+
+def update_media_collection_junction(connection, media_collection_junction):
+    """
+    update a MediaID and a CollectionID for a media collection junction request
+    :param connection: active connection to a sqlite db
+    :param media_collection_junction: a list of media collection junction information to store in the database
+    """
+    sql = ''' UPDATE MediaCollectionJunction 
+              SET MediaID = ? , 
+                  CollectionID = ? 
+              WHERE mcjID = ?'''
+    cursor = connection.cursor()
+    cursor.execute(sql,media_collection_junction)
+    connection.commit()
+
+
+def sql_fetch_tables(connection):
+    """
+    Debugging method to display all tables in the database.
+
+    :param connection: The opened connection to the database to show its tables.
+    """
+    cursor = connection.cursor()
     cursor.execute('SELECT name from sqlite_master where type= "table"')
     print(cursor.fetchall())
 
 
-def sql_fetchall(conn):
-    cursor = conn.cursor()
+def select_users(connection):
+    """
+    Method to display the user table's contents
+
+    :param connection: Opened connection to the database
+    """
+    cursor = connection.cursor()
     cursor.execute('SELECT * FROM Users')
     rows = cursor.fetchall()
     for row in rows:
         print(row)
 
 
-def close_connection(conn):
-    if conn:
-        conn.close()
+def select_media(connection):
+    """
+    Method to display the media table's contents
+
+    :param connection: Opened connection to the database
+    """
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM Media')
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+
+
+def select_request_friend(connection):
+    """
+    Method to display the RequestFriend table's contents
+
+    :param connection: Opened connection to the database
+    """
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM RequestFriend')
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+
+
+def select_friends_junction(connection):
+    """
+    Method to display the FriendsJunction table's contents
+
+    :param connection: Opened connection to the database
+    """
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM FriendsJunction')
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+
+
+def select_collection(connection):
+    """
+    Method to display the collection table's contents
+
+    :param connection: Opened connection to the database
+    """
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM Collection')
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+
+
+def select_request_media(connection):
+    """
+    Method to display the RequestMedia table's contents
+
+    :param connection: Opened connection to the database
+    """
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM RequestMedia')
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+
+
+def select_media_collection_junction(connection):
+    """
+    Method to display the MediaCollectionJunction table's contents
+
+    :param connection: Opened connection to the database
+    """
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM MediaCollectionJunction')
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+
+
+def select_user_by_username(connection, username):
+    """
+    Query users by username -- sample of how to do this
+    :param connection: active connection to the sqlite db
+    :param username: the username that is being queried for
+    """
+    sql = 'SELECT * FROM Users WHERE Username = ?'
+    cursor = connection.cursor(sql, username)
+
+    rows = cursor.fetchall()
+
+    for row in rows:
+        print(row)
+
+
+def close_connection(connection):
+    """
+    Make sure that the database connection is closed at the end.
+    """
+
+    if connection:
+        connection.close()
         print("Database connection closed.")
 
 
@@ -226,14 +622,21 @@ def close_connection(conn):
 
 if __name__ == '__main__':
     database_connection = create_connection(database_file_path)
-    sql_fetch(database_connection)
-    sql_fetchall(database_connection)
+    sql_fetch_tables(database_connection)
+    sql_select_users(database_connection)
     if database_connection:
         print(database_connection)
-        user = ("test", "test@c.com", "12345")
+        user = ("test", "test@a.com", "12345")
         media = ("jpg", "img", "Blah", "Over There", 2, 3, None, False)
-        result = create_user(database_connection, user)
-        result = create_media(database_connection, media)
+        #result = create_user(database_connection, user)
+        #result = create_media(database_connection, media)
+        sql_select_users(database_connection)
+        #delete_user(database_connection, ("17",))
+        #update_user(database_connection, ("OIII", "l@l.org", "passwor2", 42,))
+        #clear_users(database_connection)
+        #clear_media(database_connection)
+        #sql_fetch_all_users(database_connection)
+
         
 
     httpd = HTTPServer((hostName, hostPort), SimpleHTTPRequestHandler)
