@@ -490,10 +490,7 @@ def update_media_collection_junction(connection, media_collection_junction):
     connection.commit()
 
 
-
-
-
-def sql_fetch(connection):
+def sql_fetch_tables(connection):
     """
     Debugging method to display all tables in the database.
 
@@ -504,15 +501,108 @@ def sql_fetch(connection):
     print(cursor.fetchall())
 
 
-def sql_fetch_all_users(connection):
+def select_users(connection):
     """
-    Debugging method to display the user table's contents
+    Method to display the user table's contents
 
     :param connection: Opened connection to the database
     """
     cursor = connection.cursor()
     cursor.execute('SELECT * FROM Users')
     rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+
+
+def select_media(connection):
+    """
+    Method to display the media table's contents
+
+    :param connection: Opened connection to the database
+    """
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM Media')
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+
+
+def select_request_friend(connection):
+    """
+    Method to display the RequestFriend table's contents
+
+    :param connection: Opened connection to the database
+    """
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM RequestFriend')
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+
+
+def select_friends_junction(connection):
+    """
+    Method to display the FriendsJunction table's contents
+
+    :param connection: Opened connection to the database
+    """
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM FriendsJunction')
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+
+
+def select_collection(connection):
+    """
+    Method to display the collection table's contents
+
+    :param connection: Opened connection to the database
+    """
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM Collection')
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+
+
+def select_request_media(connection):
+    """
+    Method to display the RequestMedia table's contents
+
+    :param connection: Opened connection to the database
+    """
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM RequestMedia')
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+
+
+def select_media_collection_junction(connection):
+    """
+    Method to display the MediaCollectionJunction table's contents
+
+    :param connection: Opened connection to the database
+    """
+    cursor = connection.cursor()
+    cursor.execute('SELECT * FROM MediaCollectionJunction')
+    rows = cursor.fetchall()
+    for row in rows:
+        print(row)
+
+
+def select_user_by_username(connection, username):
+    """
+    Query users by username -- sample of how to do this
+    :param connection: active connection to the sqlite db
+    :param username: the username that is being queried for
+    """
+    sql = 'SELECT * FROM Users WHERE Username = ?'
+    cursor = connection.cursor(sql, username)
+
+    rows = cursor.fetchall()
+
     for row in rows:
         print(row)
 
@@ -532,15 +622,15 @@ def close_connection(connection):
 
 if __name__ == '__main__':
     database_connection = create_connection(database_file_path)
-    sql_fetch(database_connection)
-    sql_fetch_all_users(database_connection)
+    sql_fetch_tables(database_connection)
+    sql_select_users(database_connection)
     if database_connection:
         print(database_connection)
         user = ("test", "test@a.com", "12345")
         media = ("jpg", "img", "Blah", "Over There", 2, 3, None, False)
         #result = create_user(database_connection, user)
         #result = create_media(database_connection, media)
-        sql_fetch_all_users(database_connection)
+        sql_select_users(database_connection)
         #delete_user(database_connection, ("17",))
         #update_user(database_connection, ("OIII", "l@l.org", "passwor2", 42,))
         #clear_users(database_connection)
