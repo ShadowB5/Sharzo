@@ -161,7 +161,7 @@ def create_friend_junction(connection, friend_junction):
                     Should be in a list in form (Person1ID, Person2ID)
     :return: the row id of the inserted value
     """
-    sql = 'INSERT INTO FriendJunction(Person1ID,Person2ID) VALUES(?,?)'
+    sql = 'INSERT INTO FriendsJunction(Person1ID,Person2ID) VALUES(?,?)'
     cursor = connection.cursor()
     cursor.execute(sql,friend_junction)
     connection.commit()
@@ -375,6 +375,124 @@ def clear_friend_junction(connection):
     connection.commit()
 
 
+def update_user(connection, user):
+    """
+    update a username, email address, or password for a user
+    :param connection: active connection to a sqlite db
+    :param user: a list of user information to store in the database
+    """
+    sql = ''' UPDATE Users 
+              SET Username = ? , 
+                  Email = ? , 
+                  Password = ? 
+              WHERE uID = ?'''
+    cursor = connection.cursor()
+    cursor.execute(sql,user)
+    connection.commit()
+
+
+def update_media(connection, media):
+    """
+    update a FileType, Media Type, File Name, File Location, Owner ID, Loaner ID, Loan Return Time, or Is Being Loaned for a media item
+    :param connection: active connection to a sqlite db
+    :param media: a list of media information to store in the database
+    """
+    sql = ''' UPDATE Media 
+              SET FileType = ? , 
+                  MediaType = ? , 
+                  FileName = ? ,
+                  FileLocation = ?,
+                  OwnerID = ? ,
+                  LoanerID = ? ,
+                  LoanReturnTime = ? ,
+                  IsBeingLoaned = ?
+              WHERE mID = ?'''
+    cursor = connection.cursor()
+    cursor.execute(sql,media)
+    connection.commit()
+
+
+def update_collection(connection, collection):
+    """
+    update a OwnerID, Date Created, or Collection Name for a collection
+    :param connection: active connection to a sqlite db
+    :param collection: a list of collection information to store in the database
+    """
+    sql = ''' UPDATE Collection 
+              SET OwnerID = ? , 
+                  DateCreated = ? , 
+                  CollectionName = ? 
+              WHERE cID = ?'''
+    cursor = connection.cursor()
+    cursor.execute(sql,collection)
+    connection.commit()
+
+
+def update_request_media(connection, media_request):
+    """
+    update a Requested Loan Time, MediaID, FromID, or ToID for a media request
+    :param connection: active connection to a sqlite db
+    :param media_request: a list of media request's information to store in the database
+    """
+    sql = ''' UPDATE RequestMedia 
+              SET RequestedLoanTime = ? , 
+                  MediaID = ? , 
+                  FromID = ? ,
+                  ToID = ?
+              WHERE rmID = ?'''
+    cursor = connection.cursor()
+    cursor.execute(sql,media_request)
+    connection.commit()
+
+
+def update_request_friend(connection, friend_request):
+    """
+    update a FromID and a ToID for a friend request
+    :param connection: active connection to a sqlite db
+    :param friend_request: a list of friend_request information to store in the database
+    """
+    sql = ''' UPDATE RequestFriend 
+              SET FromID = ? , 
+                  ToID = ? 
+              WHERE rfID = ?'''
+    cursor = connection.cursor()
+    cursor.execute(sql,friend_request)
+    connection.commit()
+
+
+def update_friend_junction(connection, friends_junction):
+    """
+    update a Person1ID and a Person2ID for a friend request
+    :param connection: active connection to a sqlite db
+    :param friends_junction: a list of friends junction information to store in the database
+    """
+    sql = ''' UPDATE FriendsJunction 
+              SET Person1ID = ? , 
+                  Person2ID = ? 
+              WHERE fjID = ?'''
+    cursor = connection.cursor()
+    cursor.execute(sql,friends_junction)
+    connection.commit()
+
+
+def update_media_collection_junction(connection, media_collection_junction):
+    """
+    update a MediaID and a CollectionID for a media collection junction request
+    :param connection: active connection to a sqlite db
+    :param media_collection_junction: a list of media collection junction information to store in the database
+    """
+    sql = ''' UPDATE MediaCollectionJunction 
+              SET MediaID = ? , 
+                  CollectionID = ? 
+              WHERE mcjID = ?'''
+    cursor = connection.cursor()
+    cursor.execute(sql,media_collection_junction)
+    connection.commit()
+
+
+
+
+
 def sql_fetch(connection):
     """
     Debugging method to display all tables in the database.
@@ -418,17 +536,16 @@ if __name__ == '__main__':
     sql_fetch_all_users(database_connection)
     if database_connection:
         print(database_connection)
-        user = ("test", "test@c.com", "12345")
         user = ("test", "test@a.com", "12345")
         media = ("jpg", "img", "Blah", "Over There", 2, 3, None, False)
-        result = create_user(database_connection, user)
-        result = create_media(database_connection, media)
+        #result = create_user(database_connection, user)
+        #result = create_media(database_connection, media)
         sql_fetch_all_users(database_connection)
-
-        clear_users(database_connection)
-        clear_media(database_connection)
-
-        sql_fetch_all_users(database_connection)
+        #delete_user(database_connection, ("17",))
+        #update_user(database_connection, ("OIII", "l@l.org", "passwor2", 42,))
+        #clear_users(database_connection)
+        #clear_media(database_connection)
+        #sql_fetch_all_users(database_connection)
 
         
 
