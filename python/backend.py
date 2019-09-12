@@ -91,4 +91,4 @@ if __name__ == '__main__':
     httpd = HTTPServer((hostName, hostPort), SimpleHTTPRequestHandler)
     print("Press ctrl+c to stop server.")
     httpd.serve_forever()
-    close_connection(database_connection)
+    bsql.close_connection(database_connection)
