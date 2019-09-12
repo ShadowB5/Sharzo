@@ -27,7 +27,7 @@ function getUsername(uID){
 
 
 // POST createAccount
-function createAccount(username, email, password){
+function createAccount_BY_POST(username, email, password){
     // WARNING: References sha3.min.js by https://github.com/emn178
     var url = master_url;
     var xhttp = new XMLHttpRequest();
