@@ -38,43 +38,39 @@ def create_connection(database_file):
 def queryDictionary( queryString:str):
     thisDict = {}
     for p in queryString.split('&'):
+        if(p is ''): break # If no parameters were requested, just skip
         ps = p.split('=')
-        thisDict[ps[0]] = ps[1]
+        print("GOSSIPGIRL!!!!!!!!!!!!!!!!")
+        print(ps)
+        print("GOSSIPGIRL!!!!!!!!!!!!!!!!")
+        key = ps[0]
+        val = ps[1]
+        thisDict[key] = val
     return thisDict
 
 class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
+    def end_headers (self):
+        self.send_header('Access-Control-Allow-Origin', '*')
+        BaseHTTPRequestHandler.end_headers(self)
+
     def do_GET(self):
-        self.send_response(200)
-        self.end_headers()
-        self.wfile.write(b'<html><head><title>Sharzo</title></head><body><h1>Sharzo</h1>')
+        parsedURL = urlparse(self.path)
+        #queries = queryDictionary(str(parsedURL.query))
+        #self.wfile.write(bytes(queries['val'], 'utf-8'))
 
-        self.wfile.write(b'<br>Request Path: ')
-        self.wfile.write(bytes(self.path, 'utf-8'))
-
-        self.wfile.write(b'<br><h2>Url Parse</h2><br>')
-        o = urlparse(self.path)
-        self.wfile.write(b'Parse Path: ')
-        self.wfile.write(bytes(o.path, 'utf-8'))
-        self.wfile.write(b'<br>Parse Params: ')
-        self.wfile.write(bytes(str(o.params), 'utf-8'))
-        self.wfile.write(b'<br>Parse Queries: ')
-        self.wfile.write(bytes(str(o.query), 'utf-8'))
-
-        self.wfile.write(b'<br>"User" in uri: ')
-        if("user" in self.path):
-            self.wfile.write(b'Yes')
+        if("favicon" in parsedURL.path):
+            self.end_headers()
+            self.send_response(204)
+        elif("USER" in parsedURL.path):
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"bob")
         else:
-            self.wfile.write(b'No')
+            self.send_response(200)
+            self.end_headers()
+            self.wfile.write(b"wat")
 
-        self.wfile.write(b'<br>Value for query item "val": ')
-        queries = queryDictionary(str(o.query))
-        self.wfile.write(bytes(queries['val'], 'utf-8'))
-
-        self.wfile.write(b'</body></html>')
-
-        
-        
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])
         body = self.rfile.read(content_length)
@@ -623,14 +619,18 @@ def close_connection(connection):
 if __name__ == '__main__':
     database_connection = create_connection(database_file_path)
     sql_fetch_tables(database_connection)
-    sql_select_users(database_connection)
+
+    #sql_select_users(database_connection)
+
     if database_connection:
         print(database_connection)
         user = ("test", "test@a.com", "12345")
         media = ("jpg", "img", "Blah", "Over There", 2, 3, None, False)
         #result = create_user(database_connection, user)
         #result = create_media(database_connection, media)
-        sql_select_users(database_connection)
+        
+        #sql_select_users(database_connection)
+        
         #delete_user(database_connection, ("17",))
         #update_user(database_connection, ("OIII", "l@l.org", "passwor2", 42,))
         #clear_users(database_connection)
