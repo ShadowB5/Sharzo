@@ -9,7 +9,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
 
-  <title>MediaShare - Dashboard</title>
+  <title>Sharzo - Dashboard</title>
 
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -26,7 +26,7 @@
 
   <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-    <a class="navbar-brand mr-1" href="index.html">MediaShare</a>
+    <a class="navbar-brand mr-1" href="index.html">Sharzo</a>
 
     <button class="btn btn-link btn-sm text-white order-1 order-sm-0" id="sidebarToggle" href="#">
       <i class="fas fa-bars"></i>
@@ -87,12 +87,6 @@
     </ul>
 
     <div id="content-wrapper">
-
-   
-    
-         
-        
-
         <!-- DataTables -->
         <div class="card mb-3">
           <div class="card-header">
@@ -100,7 +94,7 @@
             Music </div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <table class="table table-bordered" id="musicTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
                     <th>Artist</th>
@@ -109,8 +103,6 @@
                     <th>Loaned To:</th>
                     <th>Date</th>
                     <th>Date Due</th>
-                    
-                    
                   </tr>
                 </thead>
                 <tfoot>
@@ -121,71 +113,9 @@
                     <th>Loaned To:</th>
                     <th>Date:</th>
                     <th>Date Due:</th>
-                    
                   </tr>
                 </tfoot>
                 <tbody>
-                  <tr>
-                    <td>John Prine</td>
-                    <td>Souveniers</td>
-                    <td><div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" unchecked>
-                        <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>Yes</td>
-                    <td>Fragile</td>
-                    <td><div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" unchecked>
-                        <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>Ozark Mountain Daredevils</td>
-                    <td>It Will Shine When it Shines</td>
-                     <td><div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" unchecked>
-                        <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>Bob Dylan</td>
-                    <td>Blood On The Tracks</td>
-                     <td><div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" unchecked>
-                        <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>Eagles</td>
-                    <td>Hotel California</td>
-                     <td><div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" unchecked>
-                        <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  
                 </tbody>
               </table>
             </div>
@@ -197,17 +127,14 @@
             Movies </div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <table class="table table-bordered" id="moviesTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    
                     <th>Title</th>
                     <th>Loaned Out:</th>
                     <th>Loaned To:</th>
                     <th>Date:</th>
                     <th>Due Date:</th>
-                    
-                    
                   </tr>
                 </thead>
                 <tfoot>
@@ -220,84 +147,24 @@
                   </tr>
                 </tfoot>
                 <tbody>
-                  <tr>
-                    <td>Back To The Future</td>
-                    <td><div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" unchecked>
-                        <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    </tr>
-                  <tr>
-                    <td>Avengers: Endgame</td>
-                    <td><div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" unchecked>
-                        <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    </tr>
-                  <tr>
-                    <td>Star Wars : Revenge Of The Sith</td>
-                    <td><div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" unchecked>
-                        <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>Deadpool</td>
-                    <td><div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" unchecked>
-                        <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>Starship Troopers</td>
-                    <td><div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" unchecked>
-                        <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  
                 </tbody>
               </table>
             </div>
           </div>
          
-    
           <div class="card-header">
             <i class="fas fa-table"></i>
             Games </div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <table class="table table-bordered" id="gamesTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
-                    
                     <th>Title</th>
                     <th>Loaned Out:</th>
                     <th>Loaned To:</th>
                     <th>Date:</th>
                     <th>Due Date:</th>
-                    
-                    
                   </tr>
                 </thead>
                 <tfoot>
@@ -310,75 +177,17 @@
                   </tr>
                 </tfoot>
                 <tbody>
-                  <tr>
-                    <td>Call of Duty IV</td>
-                    <td><div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" unchecked>
-                        <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    </tr>
-                  <tr>
-                    <td>Borderlands 3</td>
-                    <td><div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" unchecked>
-                        <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    </tr>
-                  <tr>
-                    <td>Doom Eternal</td>
-                    <td><div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" unchecked>
-                        <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>Mortal Kombat 11</td>
-                    <td><div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" unchecked>
-                        <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>Kingdom Hearts 3</td>
-                    <td><div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" unchecked>
-                        <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  
                 </tbody>
               </table>
             </div>
           </div>
         
-        
-         
           <div class="card-header">
             <i class="fas fa-table"></i>
             Books </div>
           <div class="card-body">
             <div class="table-responsive">
-              <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+              <table class="table table-bordered" id="booksTable" width="100%" cellspacing="0">
                 <thead>
                   <tr>
                     <th>Author</th>
@@ -400,87 +209,264 @@
                   </tr>
                 </tfoot>
                 <tbody>
-                  <tr>
-                    <td>Robert Heinlein</td>
-                    <td>Stranger In A Strange Land</td>
-                    <td><div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" unchecked>
-                        <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    </tr>
-                  <tr>
-                    <td>Larry Niven</td>
-                    <td>Ringworld</td>
-                    <td><div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" unchecked>
-                        <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    </tr>
-                  <tr>
-                    <td>Larry Niven</td>
-                    <td>A World Out Of Time</td>
-                    <td><div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" unchecked>
-                        <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>Arthur C.Clark</td>
-                    <td>Rama</td>
-                    <td><div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" unchecked>
-                        <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>L. Ron Hubbard</td>
-                    <td>Battlefield Earth</td>
-                    <td><div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="customCheck1" unchecked>
-                        <label class="custom-control-label" for="customCheck1"></label>
-                    </div>
-                    </td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  
                 </tbody>
               </table>
             </div>
           </div>
         </div>
-    
-              
-    
-
-      <!-- /.container-fluid -->
-
-      <!-- Sticky Footer -->
-      <footer class="sticky-footer">
-        <div class="container my-auto">
-          <div class="copyright text-center my-auto">
-            <span>Copyright © MediaShare 2019</span>
-          </div>
-        </div>
-      </footer>
-
+		
+		<!-- /.container-fluid -->
+		
+		<!-- Sticky Footer -->
+		<footer class="sticky-footer">
+		<div class="container my-auto">
+			<div class="copyright text-center my-auto">
+			<span>Copyright © Sharzo 2019</span>
+			</div>
+		</div>
+		</footer>
+		
+		<script type="text/javascript">
+			const dataTableBody1 = document.querySelector("#musicTable > tbody");
+			const dataTableBody2 = document.querySelector("#moviesTable > tbody");
+			const dataTableBody3 = document.querySelector("#gamesTable > tbody");
+			const dataTableBody4 = document.querySelector("#booksTable > tbody");
+			
+			// hard code, add Jake's stuff to call the below methods with?
+			const mArray = [
+			['John Prine','Souveniers', false, '', '', ''],
+			['Yes', 'Fragile', true, '', '', ''],
+			['Ozark Mountain Daredevils', 'It Will Shine When it Shines', true, '', '', '']
+			];
+			
+			const moArray = [
+			['Back to the Future', true, 'w', 'w', 'w'],
+			['Avengers: Endgame', true, 'w', 'w', 'w'],
+			['Star Wars: Revenge of the Sith', false, 'w', 'w', 'w'],
+			['Deadpool', false, 'w', 'w', 'w']
+			];
+			
+			const gArray = [
+			['Call of Duty IV', true, 'w', 'w', 'w'],
+			['Borderlands 3', false, 'w', 'w', 'w'],
+			['Doom Eternal', true, 'w', 'w', 'w'],
+			['Mortal Kombat 11', true, 'w', 'w', 'w'],
+			['Kingdom Hearts 3', false, 'w', 'w', 'w']
+			];
+			
+			const bArray = [
+			['Arthur C.Clark', 'Rama', true, 'w', 'w', 'w'],
+			['L. Ron Hubbard', 'Battlefield Earth', false, 'w', 'w', 'w']
+			];
+			
+			loadMusic (mArray);
+			
+			loadMovies (moArray);
+			
+			loadGames (gArray);
+			
+			loadBooks (bArray);
+			
+			function loadMusic (mArray)
+			{
+				// clear existing table data
+				while (dataTableBody1.firstChild)
+					dataTableBody1.removeChild(dataTableBody1.firstChild);
+				
+				// populate table
+				mArray.forEach((row) =>{
+					const tr = document.createElement("tr");
+					
+					var counter = 6;
+					
+					row.forEach((cell) => {
+						// something with the checkbox column
+						if (counter == 4)
+						{
+							var div = document.createElement("div");
+							
+							div.setAttribute("align", "center");
+							
+							var x = document.createElement("INPUT");
+							x.setAttribute("type", "checkbox");
+							
+							div.appendChild(x);
+							
+							x.style.textAlign = 'center';
+							
+							if (cell == true)
+								x.checked = true;
+							else if (cell == false)
+								x.checked = false;
+							
+							tr.appendChild(div);
+						}
+						else
+						{
+							const td = document.createElement("td");
+							td.textContent = cell;
+							tr.appendChild(td);
+						}
+						
+						
+						counter--;
+					});
+					
+					dataTableBody1.appendChild(tr);
+				});
+				
+			}
+			
+			function loadMovies (moArray)
+			{
+				// clear existing table data
+				while (dataTableBody2.firstChild)
+					dataTableBody2.removeChild(dataTableBody2.firstChild);
+				
+				// populate table
+				moArray.forEach((row) =>{
+					const tr = document.createElement("tr");
+					
+					var counter = 5;
+					
+					row.forEach((cell) => {
+						// something with the checkbox column
+						if (counter == 4)
+						{
+							var div = document.createElement("div");
+							
+							div.setAttribute("align", "center");
+							
+							var x = document.createElement("INPUT");
+							x.setAttribute("type", "checkbox");
+							
+							div.appendChild(x);
+							
+							x.style.textAlign = 'center';
+							
+							if (cell == true)
+								x.checked = true;
+							else if (cell == false)
+								x.checked = false;
+							
+							tr.appendChild(div);
+						}
+						else
+						{
+							const td = document.createElement("td");
+							td.textContent = cell;
+							tr.appendChild(td);
+						}
+						counter--;
+					});
+					
+					dataTableBody2.appendChild(tr);
+				});
+				
+			}
+			
+			function loadGames (gArray)
+			{
+				// clear existing table data
+				while (dataTableBody3.firstChild)
+					dataTableBody3.removeChild(dataTableBody3.firstChild);
+				
+				// populate table
+				gArray.forEach((row) =>{
+					const tr = document.createElement("tr");
+					
+					var counter = 5;
+					
+					row.forEach((cell) => {
+						// something with the checkbox column
+						if (counter == 4)
+						{
+							var div = document.createElement("div");
+							
+							div.setAttribute("align", "center");
+							
+							var x = document.createElement("INPUT");
+							x.setAttribute("type", "checkbox");
+							
+							div.appendChild(x);
+							
+							x.style.textAlign = 'center';
+							
+							if (cell == true)
+								x.checked = true;
+							else if (cell == false)
+								x.checked = false;
+							
+							tr.appendChild(div);
+						}
+						else
+						{
+							const td = document.createElement("td");
+							td.textContent = cell;
+							tr.appendChild(td);
+						}
+						counter--;
+					});
+					
+					dataTableBody3.appendChild(tr);
+				});
+				
+			}
+			
+			function loadBooks (bArray)
+			{
+				// clear existing table data
+				while (dataTableBody4.firstChild)
+					dataTableBody4.removeChild(dataTableBody4.firstChild);
+				
+				// populate table
+				bArray.forEach((row) =>{
+					const tr = document.createElement("tr");
+					
+					var counter = 5;
+					
+					row.forEach((cell) => {
+						// something with the checkbox column
+						if (counter == 3)
+						{
+							var div = document.createElement("div");
+							
+							div.setAttribute("align", "center");
+							
+							var x = document.createElement("INPUT");
+							x.setAttribute("type", "checkbox");
+							
+							div.appendChild(x);
+							
+							x.style.textAlign = 'center';
+							
+							if (cell == true)
+								x.checked = true;
+							else if (cell == false)
+								x.checked = false;
+							
+							tr.appendChild(div);
+						}
+						else
+						{
+							const td = document.createElement("td");
+							td.textContent = cell;
+							tr.appendChild(td);
+						}
+						counter--;
+					});
+					
+					dataTableBody4.appendChild(tr);
+				});
+				
+			}
+			
+			document.addEventListener("DOMContentLoaded", () => {loadMusic(mArray); });
+		</script>
+	
+	
+	
+	
     </div>
     <!-- /.content-wrapper -->
 
@@ -529,6 +515,9 @@
   <!-- Demo scripts for this page-->
   <script src="js/demo/datatables-demo.js"></script>
   <script src="js/demo/chart-area-demo.js"></script>
+
+  <Script src="js/sharzo-objects.js"></script>
+  <script src="js/sharzo-requests.js"></script>
 
 </body>
 
