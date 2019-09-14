@@ -10,11 +10,7 @@ Test URL http://localhost:8086/user/create/?val=key&val2=key2
 """
 
 import sqlite3
-from http.server import HTTPServer, BaseHTTPRequestHandler
-from io import StringIO
 from sqlite3 import Error
-from urllib.parse import urlparse
-import backend_sql as bsql
 
 database_file_path = "./database/media.db"
 
@@ -65,16 +61,24 @@ def create_media(connection, media_item):
     return cursor.lastrowid
 
 
+def create_media(connection, uid, media_type, file_name):
+    sql = 'INSERT INTO Media(OwnerID, MediaType, FileName) VALUES(?,?,?)'
+    cursor = connection.cursor()
+    cursor.execute(sql,(uid,media_type,file_name))
+    connection.commit()
+    return cursor.lastrowid
+
+
 def create_collection(connection, collection):
     """
     Create a new collection entry in the database
 
     :param connection: The active connection to the database.
     :param collection: The collection information to be stored in the database. 
-                    Should be in a list in form (OwnerID, DateCreated, CollectionName)
+                    Should be in a list in form (OwnerID, CollectionName)
     :return: the row id of the inserted value
     """
-    sql = 'INSERT INTO Collection(OwnerId, DateCreated, CollectionName) VALUES(?,?,?)'
+    sql = 'INSERT INTO Collection(OwnerId, CollectionName) VALUES(?,?)'
     cursor = connection.cursor()
     cursor.execute(sql,collection)
     connection.commit()
@@ -102,7 +106,7 @@ def create_friend_junction(connection, friend_junction):
     Create a new Friend Junction entry in the database
 
     :param connection: The active connection to the database.
-    :param user: The friend junction information to be stored in the database. 
+    :param friend_junction: The friend junction information to be stored in the database. 
                     Should be in a list in form (Person1ID, Person2ID)
     :return: the row id of the inserted value
     """
@@ -154,7 +158,7 @@ def delete_user(connection, id):
     """
     sql = 'DELETE from Users WHERE uID=?'
     cursor = connection.cursor()
-    cursor.execute(sql, id)
+    cursor.execute(sql, (id,))
     connection.commit()
 
 
@@ -180,7 +184,7 @@ def delete_friend_junction(connection, id):
     """
     sql = 'DELETE from FriendsJunction WHERE fjID=?'
     cursor = connection.cursor()
-    cursor.execute(sql, id)
+    cursor.execute(sql, (id,))
     connection.commit()
 
 
@@ -193,7 +197,7 @@ def delete_collection(connection, id):
     """
     sql = 'DELETE from Collection WHERE cID=?'
     cursor = connection.cursor()
-    cursor.execute(sql, id)
+    cursor.execute(sql, (id,))
     connection.commit()
 
 
@@ -206,7 +210,7 @@ def delete_request_media(connection, id):
     """
     sql = 'DELETE from RequestMedia WHERE rmID=?'
     cursor = connection.cursor()
-    cursor.execute(sql, id)
+    cursor.execute(sql, (id,))
     connection.commit()
 
 
@@ -219,7 +223,7 @@ def delete_media(connection, id):
     """
     sql = 'DELETE from Media WHERE mID=?'
     cursor = connection.cursor()
-    cursor.execute(sql, id)
+    cursor.execute(sql, (id,))
     connection.commit()
 
 
@@ -232,7 +236,14 @@ def delete_media_connection_junction(connection, id):
     """
     sql = 'DELETE from MediaCollectionJunction WHERE mcjID=?'
     cursor = connection.cursor()
-    cursor.execute(sql, id)
+    cursor.execute(sql, (id,))
+    connection.commit()
+
+
+def delete_friend(connection, uid, friendid):
+    sql = "DELETE from FriendsJunction WHERE Person1ID=? AND Person2ID=?"
+    cursor = connection.cursor()
+    cursor.execute(sql,(uid, friendid))
     connection.commit()
 
 
@@ -357,6 +368,17 @@ def update_media(connection, media):
     connection.commit()
 
 
+def update_media_status(connection, new_value, rmid):
+    sql_get = "SELECT MediaID FROM RequestMedia WHERE rmID=?"
+    sql = 'UPDATE Media SET IsBeingLoaned=? WHERE mID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql_get,(rmid,))
+    mid = cursor.fetchall()
+    if mid:    
+        cursor.execute(sql,(new_value,mid[0][0]))
+        connection.commit()
+
+
 def update_collection(connection, collection):
     """
     update a OwnerID, Date Created, or Collection Name for a collection
@@ -457,6 +479,96 @@ def select_users(connection):
     rows = cursor.fetchall()
     for row in rows:
         print(row)
+        
+        
+def get_user(connection, uid):
+    """
+    Method to retrieve a user by id
+    
+    :param connection: Opened connection to the database
+    :param uid: the user's id that is being retrieved
+    :return: the row that matches a given ID
+    """
+    sql = 'SELECT * FROM Users WHERE uID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, (uid,))
+    rows = cursor.fetchall() # rows is a list that contains the user's row from the database table    
+    return rows[0]
+
+
+def get_media_by_mid(connection, mid):
+    sql = 'SELECT * FROM Media WHERE mID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, (mid,))
+    rows = cursor.fetchall()
+    return rows
+
+
+def get_media_by_cid(connection, cID):
+    sql_prepare = "SELECT MediaID FROM MediaCollectionJunction WHERE CollectionID=?"
+    sql = 'SELECT * FROM Media WHERE mID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql_prepare, (cID,))
+    mid = cursor.fetchall()[0][0]
+    
+    cursor.execute(sql, (mid,))
+    rows = cursor.fetchall()
+    return rows
+
+
+def get_media_by_uid(connection, uid):
+    sql = 'SELECT * FROM Media WHERE OwnerID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, (uid,))
+    rows = cursor.fetchall()
+    return rows
+
+
+def get_media_by_uid_if_loaned(connection, uid):
+    sql = 'SELECT * FROM Media WHERE OwnerID=? AND IsBeingLoaned=TRUE'
+    cursor = connection.cursor()
+    cursor.execute(sql, (uid,))
+    rows = cursor.fetchall()
+    return rows
+
+
+def get_media_by_uid_if_not_loaned(connection, uid):
+    sql = 'SELECT * FROM Media WHERE OwnerID=? AND IsBeingLoaned=FALSE'
+    cursor = connection.cursor()
+    cursor.execute(sql, (uid,))
+    rows = cursor.fetchall()
+    return rows
+
+
+def get_friend_request(connection, rfID):
+    """
+    Method to retrieve a friend request by id
+    
+    :param connection: Opened connection to the database
+    :param rfID: the friend request id to be retrieved
+    :return: the row that matches the given ID
+    """
+    sql = 'SELECT * FROM RequestFriend WHERE rfID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, (rfID,))
+    rows = cursor.fetchall()
+    return rows[0]
+
+
+def get_friend_junction_by_userid(connection, uid):
+    sql = 'SELECT * FROM FriendsJunction WHERE Person1ID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, (uid,))
+    rows = cursor.fetchall()
+    return rows
+
+
+def get_loan_request_by_uid(connection, uid):
+    sql = 'SELECT * FROM RequestMedia WHERE FromID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, (uid,))
+    rows = cursor.fetchall()
+    return rows
 
 
 def select_media(connection):
@@ -550,6 +662,39 @@ def select_user_by_username(connection, username):
 
     for row in rows:
         print(row)
+
+
+def select_collection_by_username(connection, username):
+    sql = 'SELECT * FROM Collection WHERE OwnerID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, (username,))
+    rows = cursor.fetchall()
+    return rows
+
+
+def select_collection_by_collection(connection, cid):
+    sql = 'SELECT * FROM Collection WHERE cID=?'
+    cursor = connection.cursor()
+    cursor.execute(sql, (cid,))
+    rows = cursor.fetchall()
+    return rows
+
+
+def try_login(connection, username, password):
+    """
+    Attempt to login based on a username and passworddatetime A combination of a date and a time. Attributes: ()
+    :param connection: active connection to the sqlite db
+    :param username: the username to match the password too
+    :param password: the password to attempt to match to the password stored in the database.
+    """
+    sql = 'SELECT uID FROM Users WHERE username=? AND password=?'
+    cursor = connection.cursor()
+    cursor.execute(sql,(username, password))
+    uID = cursor.fetchall()
+    if uID:
+        return str(uID[0][0])
+    else:
+        return "no"
 
 
 def close_connection(connection):
