@@ -75,7 +75,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 bsql.create_friend_junction(database_connection, friends)
                 bsql.delete_request_friend(database_connection, queries["frid"])
             elif("decline" in parsedURL.path):
-                friend_request = bsql.delete_request_friend(database_connection, queries["frid"])
+                bsql.delete_request_friend(database_connection, queries["frid"])
             self.send_response(200)
             self.end_headers()
             strOut = strOut.encode('utf-8')
