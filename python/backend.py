@@ -173,7 +173,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
 
 
 if __name__ == '__main__':
-    database_connection = bsql.create_connection(bsql.database_file_path)
+    database_connection = bsql.create_connection()
+    print(database_connection)
     bsql.sql_fetch_tables(database_connection)        
     httpd = HTTPServer((hostName, hostPort), SimpleHTTPRequestHandler)
     print("Press ctrl+c to stop server.")
