@@ -83,12 +83,12 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         elif("friends" in parsedURL.path):
             strOut = ""
             if("get" in parsedURL.path):
-                friends = bsql.get_friend_junction_by_userid(database_connection, queries["uid"])
+                bsql.get_friend_junction_by_userid(database_connection, queries["uid"])
                 for friend in friends:
                     strOut += "\n"
                     strOut += str(friend)
             elif("delete" in parsedURL.path):
-                friends = bsql.delete_friend(database_connection, queries["uid"], queries["frid"])
+                bsql.delete_friend(database_connection, queries["uid"], queries["frid"])
             self.send_response(200)
             self.end_headers()
             strOut = strOut.encode('utf-8')

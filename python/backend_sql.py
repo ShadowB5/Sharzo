@@ -43,7 +43,7 @@ def create_user(connection, user):
     return cursor.lastrowid
 
 
-def create_media(connection, media_item):
+def create_media_item(connection, media_item):
     """
     Create a new media entry in the database
 
