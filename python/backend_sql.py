@@ -14,15 +14,14 @@ from sqlite3 import Error
 
 database_file_path = "./database/media.db"
 
-def create_connection(database_file):
+def create_connection():
     """
         Create and connect to a SQLite database
-        :param database_file: is a string that contains the path to the database.
         :return: A connection object or None
     """
     connection = None
     try:
-        connection = sqlite3.connect(database_file)
+        connection = sqlite3.connect(database_file_path)
     except Error as e:
         print(e)
 
