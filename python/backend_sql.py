@@ -40,7 +40,10 @@ def create_user(connection, user):
     cursor = connection.cursor()
     cursor.execute(sql,user)
     connection.commit()
-    return cursor.lastrowid
+    userID = cursor.lastrowid
+    create_collection(connection, (str(userID), "All Media"))
+
+    return userID
 
 
 def create_media_item(connection, media_item):
@@ -79,6 +82,7 @@ def create_collection(connection, collection):
     """
     sql = 'INSERT INTO Collection(OwnerId, CollectionName) VALUES(?,?)'
     cursor = connection.cursor()
+    print(collection)
     cursor.execute(sql,collection)
     connection.commit()
     return cursor.lastrowid

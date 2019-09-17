@@ -20,6 +20,8 @@
   <!-- Custom styles for this template-->
   <link href="css/sb-admin.css" rel="stylesheet">
 
+  <script src="js/sharzo-requests.js"></script>
+
 </head>
 
 <body id="page-top">
@@ -225,7 +227,9 @@
 			</div>
 		</div>
 		</footer>
-		
+    
+    
+
 		<script type="text/javascript">
 			const dataTableBody1 = document.querySelector("#musicTable > tbody");
 			const dataTableBody2 = document.querySelector("#moviesTable > tbody");
@@ -259,13 +263,14 @@
 			['L. Ron Hubbard', 'Battlefield Earth', false, 'w', 'w', 'w']
 			];
 			
-			loadMusic (mArray);
+      //loadMusic (mArray);
+      getMedia(1);
 			
-			loadMovies (moArray);
+			//loadMovies (moArray);
 			
-			loadGames (gArray);
+			//loadGames (gArray);
 			
-			loadBooks (bArray);
+			//loadBooks (bArray);
 			
 			function loadMusic (mArray)
 			{
@@ -274,13 +279,15 @@
 					dataTableBody1.removeChild(dataTableBody1.firstChild);
 				
 				// populate table
-				mArray.forEach((row) =>{
-					const tr = document.createElement("tr");
+				//mArray.forEach((row) =>{
+        for (var i = 0; i < mArray.length; i++){
+          const tr = document.createElement("tr");
 					
 					var counter = 6;
 					
-					row.forEach((cell) => {
-						// something with the checkbox column
+					//row.forEach((cell) => {
+          for (var j = 0; j < mArray[i].length; j++){
+            // something with the checkbox column
 						if (counter == 4)
 						{
 							var div = document.createElement("div");
@@ -294,9 +301,9 @@
 							
 							x.style.textAlign = 'center';
 							
-							if (cell == true)
+							if (mArray[i][j] == true)
 								x.checked = true;
-							else if (cell == false)
+							else if (mArray[i][j] == false)
 								x.checked = false;
 							
 							tr.appendChild(div);
@@ -304,16 +311,16 @@
 						else
 						{
 							const td = document.createElement("td");
-							td.textContent = cell;
+							td.textContent = mArray[i][j];
 							tr.appendChild(td);
 						}
 						
 						
 						counter--;
-					});
+					}
 					
 					dataTableBody1.appendChild(tr);
-				});
+				}
 				
 			}
 			
@@ -324,12 +331,12 @@
 					dataTableBody2.removeChild(dataTableBody2.firstChild);
 				
 				// populate table
-				moArray.forEach((row) =>{
+				for (var i = 0; i < moArray; i++){
 					const tr = document.createElement("tr");
 					
 					var counter = 5;
 					
-					row.forEach((cell) => {
+					for (var j = 0; j < moArray[i]; j++){
 						// something with the checkbox column
 						if (counter == 4)
 						{
@@ -344,9 +351,9 @@
 							
 							x.style.textAlign = 'center';
 							
-							if (cell == true)
+							if (moArray[i][j] == true)
 								x.checked = true;
-							else if (cell == false)
+							else if (moArray[i][j] == false)
 								x.checked = false;
 							
 							tr.appendChild(div);
@@ -358,10 +365,10 @@
 							tr.appendChild(td);
 						}
 						counter--;
-					});
+					}
 					
 					dataTableBody2.appendChild(tr);
-				});
+				}
 				
 			}
 			
@@ -372,12 +379,12 @@
 					dataTableBody3.removeChild(dataTableBody3.firstChild);
 				
 				// populate table
-				gArray.forEach((row) =>{
+				for (var i = 0; i < gArray; i++){
 					const tr = document.createElement("tr");
 					
 					var counter = 5;
 					
-					row.forEach((cell) => {
+					for (var j = 0; j < gArray[i]; j++){
 						// something with the checkbox column
 						if (counter == 4)
 						{
@@ -392,9 +399,9 @@
 							
 							x.style.textAlign = 'center';
 							
-							if (cell == true)
+							if (gArray[i][j] == true)
 								x.checked = true;
-							else if (cell == false)
+							else if (gArray[i][j] == false)
 								x.checked = false;
 							
 							tr.appendChild(div);
@@ -406,10 +413,10 @@
 							tr.appendChild(td);
 						}
 						counter--;
-					});
+					}
 					
 					dataTableBody3.appendChild(tr);
-				});
+				}
 				
 			}
 			
@@ -420,12 +427,12 @@
 					dataTableBody4.removeChild(dataTableBody4.firstChild);
 				
 				// populate table
-				bArray.forEach((row) =>{
+				for (var i = 0; i < bArray; i++){
 					const tr = document.createElement("tr");
 					
 					var counter = 5;
 					
-					row.forEach((cell) => {
+					for (var j = 0; j < bArray[i]; j++){
 						// something with the checkbox column
 						if (counter == 3)
 						{
@@ -440,9 +447,9 @@
 							
 							x.style.textAlign = 'center';
 							
-							if (cell == true)
+							if (bArray[i][j] == true)
 								x.checked = true;
-							else if (cell == false)
+							else if (bArray[i][j] == false)
 								x.checked = false;
 							
 							tr.appendChild(div);
@@ -454,14 +461,14 @@
 							tr.appendChild(td);
 						}
 						counter--;
-					});
+					}
 					
 					dataTableBody4.appendChild(tr);
-				});
+				}
 				
 			}
 			
-			document.addEventListener("DOMContentLoaded", () => {loadMusic(mArray); });
+			document.addEventListener("DOMContentLoaded", () => {getMedia(1); });
 		</script>
 	
 	
@@ -516,8 +523,6 @@
   <script src="js/demo/datatables-demo.js"></script>
   <script src="js/demo/chart-area-demo.js"></script>
 
-  <Script src="js/sharzo-objects.js"></script>
-  <script src="js/sharzo-requests.js"></script>
 
 </body>
 

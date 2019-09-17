@@ -373,8 +373,12 @@ function getMedia(mID){
 
     xhttp.onreadystatechange = function() {
         if (this.readyState == readyState.done && this.status == httpStatus.ok) {
-            let val = this.responseText;
-            document.getElementById("JakeTesting").innerHTML = val;
+            var v = this.responseText;
+            //v.replace(/n/g, ":");
+            var va = v.split('∟');
+            console.log(va);
+            var mArray = [[va[4], va[3], va[8], va[6], "NA", "NA"]]
+            loadMusic(mArray);
         }
     };
 

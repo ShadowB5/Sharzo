@@ -117,8 +117,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 elif "cid" in queries.keys():
                     return_value = bsql.select_collection_by_collection(database_connection, queries["cid"])
                 for i in return_value[0]:
-                    strOut += '\n'
                     strOut += str(i)
+                    strOut += '\n'
             elif ("create" in parsedURL.path):
                 cid = bsql.create_collection(database_connection, (queries["uid"],queries["name"]))
                 strOut = str(cid)
@@ -143,8 +143,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                     elif queries["onloan"] == "false":
                         return_value = bsql.get_media_by_uid_if_not_loaned(database_connection, queries["uid"])
                 for i in return_value[0]:
-                    strOut += '\n'
                     strOut += str(i)
+                    strOut += '∟'
             elif("create" in parsedURL.path):
                 print(queries)
                 mid = bsql.create_media(database_connection, queries["ownerid"], queries["mediatype"], queries["filename"])
