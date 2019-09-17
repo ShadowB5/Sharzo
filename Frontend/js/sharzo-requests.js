@@ -1,4 +1,4 @@
-const master_url = "http://localhost:8086"
+const master_url = "https://jakegillenwater.dev:8086"
 const readyState = {unsent: 0, opened: 1, headers: 2, loading: 3, done: 4}
 const httpStatus = {switchingProtocols: 101, ok: 200, created: 201, 
                     accepted:202, noContent: 204,  partialContent:206,

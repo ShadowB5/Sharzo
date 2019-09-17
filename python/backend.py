@@ -16,8 +16,9 @@ from io import StringIO
 from sqlite3 import Error
 from urllib.parse import urlparse
 import backend_sql as bsql
+import ssl
 
-hostName = ""
+hostName = "jakegillenwater.dev"
 hostPort = 8086
 database_connection = None
 
@@ -184,5 +185,8 @@ if __name__ == '__main__':
     bsql.sql_fetch_tables(database_connection)        
     httpd = HTTPServer((hostName, hostPort), SimpleHTTPRequestHandler)
     print("Press ctrl+c to stop server.")
+
+    httpd.socket = ssl.wrap_socket (httpd.socket, keyfile="/etc/letsencrypt/live/jakegillenwater.dev/privkey.pem", certfile='/etc/letsencrypt/live/jakegillenwater.dev/cert.pem', server_side=True)
+
     httpd.serve_forever()
     bsql.close_connection(database_connection)
