@@ -21,6 +21,7 @@ hostName = ""
 hostPort = 8086
 database_connection = None
 
+
 def queryDictionary( queryString:str):
     thisDict = {}
     for p in queryString.split('&'):
@@ -49,9 +50,9 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             if ("get" in parsedURL.path):
                 user = bsql.get_user(database_connection, queries["uid"])
                 strOut = "uID=" + str(user[0])
-                strOut += "\nusername=" + user[1]
-                strOut += "\nemail=" + user[2]
-                strOut += "\npassword=" + user[3]
+                strOut += "|username=" + user[1]
+                strOut += "|email=" + user[2]
+                strOut += "|password=" + user[3]
             elif ("create" in parsedURL.path):
                 user = (queries["username"],queries["email"], queries["password"])
                 uid = bsql.create_user(database_connection, user)
@@ -85,8 +86,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             if("get" in parsedURL.path):
                 bsql.get_friend_junction_by_userid(database_connection, queries["uid"])
                 for friend in friends:
-                    strOut += "\n"
                     strOut += str(friend)
+                    strOut += "|"
             elif("delete" in parsedURL.path):
                 bsql.delete_friend(database_connection, queries["uid"], queries["frid"])
             self.send_response(200)
@@ -98,8 +99,8 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             if("get" in parsedURL.path):
                 request = bsql.get_loan_request_by_uid(database_connection, queries["uid"])
                 for item in request:
-                    strOut += "\n"
                     strOut += str(item)
+                    strOut += "|"
             elif("accept" in parsedURL.path):
                 bsql.update_media_status(database_connection, 'True', queries["rmid"])
                 bsql.delete_request_media(database_connection, queries["rmid"])
@@ -118,7 +119,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                     return_value = bsql.select_collection_by_collection(database_connection, queries["cid"])
                 for i in return_value[0]:
                     strOut += str(i)
-                    strOut += '\n'
+                    strOut += "|"
             elif ("create" in parsedURL.path):
                 cid = bsql.create_collection(database_connection, (queries["uid"],queries["name"]))
                 strOut = str(cid)
@@ -142,11 +143,16 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                         return_value = bsql.get_media_by_uid_if_loaned(database_connection, queries["uid"])
                     elif queries["onloan"] == "false":
                         return_value = bsql.get_media_by_uid_if_not_loaned(database_connection, queries["uid"])
-                for i in return_value[0]:
-                    strOut += str(i)
-                    strOut += '∟'
+                print(return_value)
+                for c in return_value:
+                    for i in c:
+                        strOut += str(i)
+                        strOut += '|'
+                    strOut += '~'
+                strOut = strOut[:-1]
             elif("create" in parsedURL.path):
                 print(queries)
+                strOut += '|'
                 mid = bsql.create_media(database_connection, queries["ownerid"], queries["mediatype"], queries["filename"])
                 strOut = str(mid)
             elif("delete" in parsedURL.path):
@@ -156,9 +162,9 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
             strOut = strOut.encode('utf-8')
             self.wfile.write(strOut)
         else:
-            self.send_response(200)
+            self.send_response(400)
             self.end_headers()
-            self.wfile.write(b"wat")
+            self.wfile.write(b"Unknown Request")
 
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])

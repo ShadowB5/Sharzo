@@ -57,7 +57,8 @@ function createUser(username, email, password, passwordConfirm){
 
         if (this.readyState == readyState.done && this.status == httpStatus.ok) {
             let val = this.responseText;
-            document.getElementById("JakeTesting").innerHTML = val;
+            alert("Account successfully created.");
+            login_successful(val);
         }
     };
 
@@ -124,7 +125,13 @@ function loginUser(username, password){
 
         if (this.readyState == readyState.done && this.status == httpStatus.ok) {
             let val = this.responseText;
-            document.getElementById("JakeTesting").innerHTML = val;
+            console.log(val);
+            if (val == "no"){
+                login_failed();
+            }
+            else{
+                login_successful(val);
+            }
         }
     };
 
@@ -375,9 +382,9 @@ function getMedia(mID){
         if (this.readyState == readyState.done && this.status == httpStatus.ok) {
             var v = this.responseText;
             //v.replace(/n/g, ":");
-            var va = v.split('∟');
+            var va = v.split('|');
             console.log(va);
-            var mArray = [[va[4], va[3], va[8], va[6], "NA", "NA"]]
+            var mArray =[[va[4], va[3], va[8], va[6], "NA", "NA"]]
             loadMusic(mArray);
         }
     };
@@ -411,8 +418,16 @@ function getMediaByUser(uID){
 
     xhttp.onreadystatechange = function() {
         if (this.readyState == readyState.done && this.status == httpStatus.ok) {
-            let val = this.responseText;
-            document.getElementById("JakeTesting").innerHTML = val;
+            var v = this.responseText;
+            var vv = v.split('~')
+            var mArray = [];
+            for (let i = 0; i < vv.length; i++) {
+                var va = vv[i].split('|');
+                mArray.push([va[4], va[3], va[8], va[6], "NA", "NA"]);
+            }
+            
+             
+            loadMusic(mArray);
         }
     };
 

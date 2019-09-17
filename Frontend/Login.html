@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Bootstrap Table with Add and Delete Row Feature</title>
+<title>Sharzo</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto|Varela+Round|Open+Sans">
 <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -152,88 +152,76 @@ $(document).ready(function(){
     });
 });
 </script>
+
+<script src="js/sharzo-cookies.js"></script>
+
 </head>
 <body id="page-top">
 
   <nav class="navbar navbar-expand navbar-dark bg-dark static-top">
 
-    <a class="navbar-brand mr-1" href="index.html">Back</a>
+    <a class="navbar-brand mr-1" href="#">Sharzo</a>
   
 
   </nav>
 
     
     <div class="container">
+        <form id="login-form">
         <div class="table-wrapper">
             <div class="table-title">
                 <div class="row">
-                    <div class="col-sm-8"><h2>Music</h2></div>
-                    <div class="col-sm-4">
-                        <button type="button" class="btn btn-info add-new"><i class="fa fa-plus"></i> Add New</button>
-                    </div>
+                    <div class="col-sm-8"><h2>Login</h2></div>
+                    
                 </div>
             </div>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Artist</th>
-                        <th>Title</th>
-                        <th>Loaned Out?</th>
-                        <th>Loaned To:</th>
-                        <th>Return Date</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Elton John</td>
-                        <td>Goodbye Yellow Brick Road</td>
-                        <td><!-- Default unchecked -->
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
-                            </div></td>
-                        <td>John Smith</td>
-                        <td>09/01/2019</td>
-                        <td>
-							<a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
-                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td> John Prine</td>
-                        <td> German Afternoons</td>
-                        <td><!-- Default unchecked -->
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
-                            </div></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-							<a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
-                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>Dire Straits</td>
-                        <td>Communique</td>
-                        <td><!-- Default unchecked -->
-                            <div class="custom-control custom-checkbox">
-                                <input type="checkbox" class="custom-control-input" id="defaultUnchecked">
-                            </div></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-							<a class="add" title="Add" data-toggle="tooltip"><i class="material-icons">&#xE03B;</i></a>
-                            <a class="edit" title="Edit" data-toggle="tooltip"><i class="material-icons">&#xE254;</i></a>
-                            <a class="delete" title="Delete" data-toggle="tooltip"><i class="material-icons">&#xE872;</i></a>
-                        </td>
-                    </tr>      
-                </tbody>
-            </table>
+            <input type="text" id="form-username" class="form-control" placeholder="Username"><br>
+            <input type="password" id="form-password" class="form-control" placeholder="Password">
+            <hr>
+            <input type="text" id="form-email" class="form-control" placeholder="Email"><br>
+            <input type="password" id="form-password-confirm" class="form-control" placeholder="Confirm Password"><br>
+           
+                    <button type="button" id="btn-login" class="btn btn-info login">Login</button>
+                    <button type="button" id="btn-create" class="btn btn-info create">Create New</button>
+                  
         </div>
+        </form>
     </div> 
+
+
+    <script type="text/javascript">
+        document.getElementById("btn-login").onclick = function () { 
+                let username = document.getElementById("form-username").value;
+                let password = document.getElementById("form-password").value;
+                //alert("Attempt to login using username: " + username + ", password: " + password);
+                loginUser(username, password);
+            };
+        
+            document.getElementById("btn-create").onclick = function () { 
+                let username = document.getElementById("form-username").value;
+                let password = document.getElementById("form-password").value;
+                let password_confirm = document.getElementById("form-password-confirm").value;
+                let email = document.getElementById("form-email").value;
+                //alert("Attempt to create using username: " + username + ", password: " + password)
+                createUser(username, email, password, password_confirm);
+            };
+
+        function login_successful(uid){
+            alert("login successful!");
+            setCookie("userID", uid);
+            window.location.href = "./Admin.html";
+        }
+
+        function login_failed(){
+
+            alert("loging failed!");
+        }
+    </script>
+
+    <script src="js/sharzo-requests.js"></script>
+
+
+
     <!-- Sticky Footer -->
       <footer class="sticky-footer">
         <div class="container my-auto">
