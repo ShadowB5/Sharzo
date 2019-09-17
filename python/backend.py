@@ -17,6 +17,8 @@ from sqlite3 import Error
 from urllib.parse import urlparse
 import backend_sql as bsql
 import ssl
+import hashlib
+
 
 hostName = "jakegillenwater.dev"
 hostPort = 8086
@@ -55,13 +57,17 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
                 strOut += "|email=" + user[2]
                 strOut += "|password=" + user[3]
             elif ("create" in parsedURL.path):
-                user = (queries["username"],queries["email"], queries["password"])
+                hash_object = hashlib.sha256(bytes(queries["password"], "utf-8"))
+                password_hashed = hash_object.hexdigest()
+                user = (queries["username"],queries["email"],password_hashed)
                 uid = bsql.create_user(database_connection, user)
                 strOut = str(uid)
             elif ("delete" in parsedURL.path):
                 bsql.delete_user(database_connection, queries["uid"])
             elif ("login" in parsedURL.path):
-                strOut = bsql.try_login(database_connection, queries["username"], queries["password"])
+                hash_object = hashlib.sha256(bytes(queries["password"], "utf-8"))
+                password_hashed = hash_object.hexdigest()
+                strOut = bsql.try_login(database_connection, queries["username"], password_hashed)
             self.send_response(200)
             self.end_headers()
             strOut = strOut.encode('utf-8')
